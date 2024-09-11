@@ -29,3 +29,10 @@ Using CppAD and bicycle vehicle kinematic model for trajectory optimization and 
 </a>
 
 ----
+
+**Cost function for obstacle distance**
+
+![](https://github.com/hanmmmmm/cppad_bicycle_traj_opt/blob/main/media/Screenshot%20from%202024-09-10%2023-30-49.png)
+
+
+

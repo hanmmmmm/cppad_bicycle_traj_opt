@@ -1,0 +1,12 @@
+<launch>
+
+<node pkg="cppad_bicycle_traj_opt" type="rviz_interactive_marker.py" name="rviz_interactive_marker" output="screen" />
+
+<node pkg="cppad_bicycle_traj_opt" type="pose_republisher.py" name="pose_republisher" output="screen" />
+
+<node pkg="cppad_bicycle_traj_opt" type="map_baselink_tf.py" name="map_baselink_tf" output="screen" />
+
+<node pkg="rviz" type="rviz" name="rviz" args="-d $(find cppad_bicycle_traj_opt)/launch/demo_viz.rviz" output="screen" />
+
+
+</launch>

@@ -8,6 +8,7 @@
 #include "geometry_msgs/PoseStamped.h"
 #include "visualization_msgs/InteractiveMarkerInit.h"
 #include "visualization_msgs/MarkerArray.h"
+#include "visualization_msgs/Marker.h"
 #include "nav_msgs/Path.h"
 
 #include <array>

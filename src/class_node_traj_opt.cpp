@@ -1,6 +1,8 @@
-#include "cppad_bicycle_traj_opt/class_node_traj_opt.h"
 
 #include <tf/tf.h>
+
+#include "cppad_bicycle_traj_opt/class_node_traj_opt.h"
+#include "cppad_bicycle_traj_opt/pose_marker_maker.h"
 
 
 namespace cppad_bicycle_traj_opt
@@ -8,7 +10,8 @@ namespace cppad_bicycle_traj_opt
 
 ClassNodeTrajOpt::ClassNodeTrajOpt(ros::NodeHandle& nh) : nh_(nh)
 {
-    sparse_path_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("/sparse_path", 1);
+    // sparse_path_pub_ = nh_.advertise<visualization_msgs::MarkerArray>("/sparse_path", 1);
+    sparse_path_pub_ = nh_.advertise<visualization_msgs::Marker>("/sparse_path", 1);
     
     goal_pose_sub_ = nh_.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &ClassNodeTrajOpt::goalposeCallback, this);
     obstacles_sub_ = nh_.subscribe<visualization_msgs::InteractiveMarkerInit>("/basic_controls/update_full", 1, &ClassNodeTrajOpt::obstacleCallback, this);
@@ -59,30 +62,36 @@ void ClassNodeTrajOpt::mainLoopCallback(const ros::TimerEvent&)
     auto sparse_v = traj_solver.getSolutionV();
 
     // Publish the sparse path as RVIZ marker array
-    visualization_msgs::MarkerArray sparse_path_msg;
-    for (size_t i = 0; i < sparse_path.size(); i++)
-    {
-        visualization_msgs::Marker marker;
-        marker.header.frame_id = "map";
-        marker.header.stamp = ros::Time();
-        marker.ns = "sparse_path";
-        marker.id = i;
-        marker.type = visualization_msgs::Marker::ARROW;
-        marker.action = visualization_msgs::Marker::ADD;
-        marker.pose.position.x = sparse_path[i][0];
-        marker.pose.position.y = sparse_path[i][1];
-        marker.pose.position.z = 0.0;
-        marker.pose.orientation = tf::createQuaternionMsgFromYaw(sparse_path[i][2]);
-        marker.scale.x = std::abs(sparse_v[i]) / 15.0;
-        marker.scale.y = 0.05;
-        marker.scale.z = 0.1;
-        marker.color.a = 1.0;
-        marker.color.r = 0.0;
-        marker.color.g = 1.0;
-        marker.color.b = 0.0;
-        sparse_path_msg.markers.push_back(marker);
-    }
-    sparse_path_pub_.publish(sparse_path_msg);
+    visualization_msgs::Marker marker = makeLineListMarker(sparse_path, "map");
+    sparse_path_pub_.publish(marker);
+
+    // // if the marker above makes Rviz unstable, try this method below
+    // // and remember to change publisher type to visualization_msgs::MarkerArray
+    // // Publish the sparse path as RVIZ marker array
+    // visualization_msgs::MarkerArray sparse_path_msg;
+    // for (size_t i = 0; i < sparse_path.size(); i++)
+    // {
+    //     visualization_msgs::Marker marker;
+    //     marker.header.frame_id = "map";
+    //     marker.header.stamp = ros::Time();
+    //     marker.ns = "sparse_path";
+    //     marker.id = i;
+    //     marker.type = visualization_msgs::Marker::ARROW;
+    //     marker.action = visualization_msgs::Marker::ADD;
+    //     marker.pose.position.x = sparse_path[i][0];
+    //     marker.pose.position.y = sparse_path[i][1];
+    //     marker.pose.position.z = 0.0;
+    //     marker.pose.orientation = tf::createQuaternionMsgFromYaw(sparse_path[i][2]);
+    //     marker.scale.x = std::abs(sparse_v[i]) / 15.0;
+    //     marker.scale.y = 0.05;
+    //     marker.scale.z = 0.1;
+    //     marker.color.a = 1.0;
+    //     marker.color.r = 0.0;
+    //     marker.color.g = 1.0;
+    //     marker.color.b = 0.0;
+    //     sparse_path_msg.markers.push_back(marker);
+    // }
+    // sparse_path_pub_.publish(sparse_path_msg);
 
 
 }

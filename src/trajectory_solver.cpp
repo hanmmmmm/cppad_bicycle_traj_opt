@@ -40,12 +40,12 @@ ClassTrajectorySolver::ClassTrajectorySolver(size_t N, double dt, double Lf,
     double x_init = 0.0;
     double y_init = 0.0;
     double theta_init = 0.0;
-    double v_init = 4.0;
+    double v_init = 3.0;
 
     double x_goal = goal_pose_[0];
     double y_goal = goal_pose_[1];
     double theta_goal = goal_pose_[2];
-    double v_goal = v_init;
+    double v_goal = 5.0;
 
     double constraint_v_upper = 10.0;
     double constraint_v_lower = -8.0;

@@ -30,6 +30,13 @@ Using CppAD and bicycle vehicle kinematic model for trajectory optimization and 
 
 ----
 
+![](https://github.com/hanmmmmm/cppad_bicycle_traj_opt/blob/main/media/states_definitions.png)
+
+![](https://github.com/hanmmmmm/cppad_bicycle_traj_opt/blob/main/media/object_function.png)
+
+![](https://github.com/hanmmmmm/cppad_bicycle_traj_opt/blob/main/media/constraints.png)
+
+
 **Cost function for obstacle distance**
 
 x is the distance between a state pose and an obstacle; 
